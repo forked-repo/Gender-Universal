@@ -4,7 +4,7 @@
  * Detects gender from person's name, capable to analyse strings in
  * these scripts: Latin, Cyrillic, Hanzi (Kanji).
  *
- * @version    0.1 (2017-05-14 00:03:00 GMT)
+ * @version    0.2 (2017-07-15 07:56:00 GMT)
  * @author     Peter Kahl <peter.kahl@colossalmind.com>
  * @since      2017-01-27
  * @license    Apache License, Version 2.0
@@ -32,6 +32,7 @@ use peterkahl\GenderLatin\GenderLatin;
 use peterkahl\GenderCyrillic\GenderCyrillic;
 
 use \Gender\Gender;
+use \Exception;
 
 class GenderUniversal {
 
@@ -45,7 +46,7 @@ class GenderUniversal {
    * First Name: REQUIRED
    * @var string
    */
-  public $firstName;
+  public $firstName = '';
 
   /**
    * Last Name: OPTIONAL
@@ -56,6 +57,10 @@ class GenderUniversal {
   #===================================================================
 
   public function getGender() {
+
+    if (empty($this->firstName)) {
+      throw new Exception('Property firstName cannot be empty');
+    }
 
     $charset = CharsetFromString::getCharset($this->firstName . $this->lastName);
 
